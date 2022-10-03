@@ -6,7 +6,15 @@ const articleSchema = new Schema(
     image: String,
     city: String,
     publisher: String,
-    category: [String],
+    other: String,
+    link: String,
+    category: {
+      food: Boolean,
+      lifestyle: Boolean,
+      guide: Boolean,
+      review: Boolean,
+      recipes: Boolean,
+    },
     publicationDate: Date,
   },
   {

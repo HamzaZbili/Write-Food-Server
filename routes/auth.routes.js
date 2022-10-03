@@ -2,7 +2,11 @@ const router = require("express").Router();
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
 const jsonWebToken = require("jsonwebtoken");
-const salt = 10;
+const isAuth = require("../middleware/middleware");
+
+///// Sign up route - Used only for initial admin account creation
+
+// const salt = 10;
 
 // router.post("/signup", async (req, res, next) => {
 //   const { username, password, email } = req.body;
@@ -56,6 +60,10 @@ router.post("/login", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+router.get("/me", isAuth, (req, res, next) => {
+  res.status(200).json(req.user);
 });
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const isAuth = require("../middleware/middleware");
 const Article = require("../models/Article.model");
 
 router.get("/", async (req, res, next) => {
@@ -10,16 +11,36 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/new", async (req, res) => {
+router.post("/new", isAuth, async (req, res) => {
   try {
-    const { title, image, city, publisher, category, publicationDate } =
-      req.body;
+    const {
+      title,
+      image,
+      city,
+      publisher,
+      other,
+      link,
+      food,
+      lifestyle,
+      guide,
+      review,
+      recipes,
+      publicationDate,
+    } = req.body;
     const newArticle = await Article.create({
       title: title,
       image: image,
       city: city,
       publisher: publisher,
-      category: category,
+      other: other,
+      link: link,
+      category: {
+        food: food,
+        lifestyle: lifestyle,
+        guide: guide,
+        review: review,
+        recipes: recipes,
+      },
       publicationDate: publicationDate,
     });
     res.status(200).json(newArticle);
