@@ -5,8 +5,8 @@ const Article = require("../models/Article.model");
 
 router.get("/", async (req, res, next) => {
   try {
-    const eateries = await Article.find();
-    res.status(200).json(eateries);
+    const articles = await Article.find();
+    res.status(200).json(articles);
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -26,6 +26,7 @@ router.post(
         other,
         link,
         food,
+        seasonal,
         lifestyle,
         guide,
         review,
@@ -45,8 +46,9 @@ router.post(
           guide: guide,
           review: review,
           recipes: recipes,
+          seasonal: seasonal,
         },
-        photo: req.file.path,
+        image: req.file.path,
         publicationDate: publicationDate,
       });
       res.status(200).json(newArticle);

@@ -14,6 +14,7 @@ const articleSchema = new Schema(
       guide: Boolean,
       review: Boolean,
       recipes: Boolean,
+      seasonal: Boolean,
     },
     publicationDate: Date,
   },
