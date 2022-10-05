@@ -20,6 +20,15 @@ router.get("/more/:skip", async (req, res, next) => {
   }
 });
 
+router.get("/all", isAuth, async (req, res, next) => {
+  try {
+    const articles = await Article.find();
+    res.status(200).json(articles);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 router.post(
   "/new",
   isAuth,
@@ -65,5 +74,16 @@ router.post(
     }
   }
 );
+
+router.delete("/delete/:id", isAuth, async (req, res, next) => {
+  try {
+    const deleteArticle = await Article.findOneAndDelete({
+      _id: req.params.id,
+    });
+    res.status(204).json(deleteArticle);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 
 module.exports = router;
