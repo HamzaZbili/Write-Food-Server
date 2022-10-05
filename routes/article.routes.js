@@ -5,7 +5,15 @@ const Article = require("../models/Article.model");
 
 router.get("/", async (req, res, next) => {
   try {
-    const articles = await Article.find();
+    const articles = await Article.find().limit(3);
+    res.status(200).json(articles);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+router.get("/more/:skip", async (req, res, next) => {
+  try {
+    const articles = await Article.find().skip(req.params.skip).limit(3);
     res.status(200).json(articles);
   } catch (error) {
     res.status(400).send(error.message);
