@@ -9,11 +9,10 @@ const articleSchema = new Schema(
     other: String,
     link: String,
     category: {
-      food: Boolean,
       lifestyle: Boolean,
       guide: Boolean,
       review: Boolean,
-      recipes: Boolean,
+      recipe: Boolean,
       seasonal: Boolean,
     },
     publicationDate: Date,

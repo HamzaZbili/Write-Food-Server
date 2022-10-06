@@ -29,6 +29,62 @@ router.get("/all", isAuth, async (req, res, next) => {
   }
 });
 
+router.get("/lifestyle", async (req, res, next) => {
+  try {
+    const lifeStyle = await Article.find({
+      "category.lifestyle": true,
+    });
+    res.status(200).json(lifeStyle);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/guides", async (req, res, next) => {
+  try {
+    const guides = await Article.find({
+      "category.guide": true,
+    });
+    console.log(guides.length);
+    res.status(200).json(guides);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/reviews", async (req, res, next) => {
+  try {
+    const reviews = await Article.find({
+      "category.review": true,
+    });
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/recipes", async (req, res, next) => {
+  try {
+    const recipes = await Article.find({
+      "category.recipe": true,
+    });
+    res.status(200).json(recipes);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+router.get("/seasonal", async (req, res, next) => {
+  try {
+    const seasonal = await Article.find({
+      "category.seasonal": true,
+    });
+    res.status(200).json(seasonal);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 router.post(
   "/new",
   isAuth,
@@ -47,7 +103,7 @@ router.post(
         lifestyle,
         guide,
         review,
-        recipes,
+        recipe,
         publicationDate,
       } = req.body;
       const newArticle = await Article.create({
@@ -62,7 +118,7 @@ router.post(
           lifestyle: lifestyle,
           guide: guide,
           review: review,
-          recipes: recipes,
+          recipe: recipe,
           seasonal: seasonal,
         },
         image: req.file.path,
