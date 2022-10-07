@@ -6,32 +6,32 @@ const isAuth = require("../middleware/middleware");
 
 ///// Sign up route - Used only for initial admin account creation
 
-// const salt = 10;
+const salt = 10;
 
-// router.post("/signup", async (req, res, next) => {
-//   const { username, password, email } = req.body;
-//   if (!password || !username) {
-//     return res.status(400).json({ message: "username and password requires" });
-//   }
-//   try {
-//     const usernameTaken = await User.findOne({ username });
-//     if (usernameTaken) {
-//       return res.status(400).json({ message: "this username is taken" });
-//     }
-//     const generatedSalt = bcrypt.genSaltSync(salt);
-//     const saltedPassword = bcrypt.hashSync(password, generatedSalt);
+router.post("/signup", async (req, res, next) => {
+  const { username, password, email } = req.body;
+  if (!password || !username || !email) {
+    return res.status(400).json({ message: "username and password requires" });
+  }
+  try {
+    const usernameTaken = await User.findOne({ username });
+    if (usernameTaken) {
+      return res.status(400).json({ message: "this username is taken" });
+    }
+    const generatedSalt = bcrypt.genSaltSync(salt);
+    const saltedPassword = bcrypt.hashSync(password, generatedSalt);
 
-//     const newUser = {
-//       username,
-//       password: saltedPassword,
-//       email,
-//     };
-//     const createdUser = await User.create(newUser);
-//     res.status(201).json(createdUser);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+    const newUser = {
+      username,
+      password: saltedPassword,
+      email,
+    };
+    const createdUser = await User.create(newUser);
+    res.status(201).json(createdUser);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
