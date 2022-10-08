@@ -58,7 +58,7 @@ router.post("/login", async (req, res, next) => {
 
     res.status(200).json(token);
   } catch (error) {
-    next(error);
+    res.status(400).send(error.message);
   }
 });
 
