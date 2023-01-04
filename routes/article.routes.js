@@ -124,12 +124,55 @@ router.post(
         image: req.file.path,
         publicationDate: publicationDate,
       });
-      res.status(200).json(newArticle);
+      res.status(201).json(newArticle);
     } catch (error) {
       res.status(400).send(error.message);
     }
   }
 );
+
+router.patch("/update/:id", isAuth, async (req, res, next) => {
+  try {
+    const {
+      title,
+      image,
+      city,
+      publisher,
+      other,
+      link,
+      food,
+      seasonal,
+      lifestyle,
+      guide,
+      review,
+      recipe,
+    } = req.body;
+    const id = req.params.id;
+    const updatedArticle = await Article.findOneAndUpdate(
+      { id: id },
+      {
+        title: title,
+        image: image,
+        city: city,
+        publisher: publisher,
+        other: other,
+        link: link,
+        category: {
+          food: food,
+          lifestyle: lifestyle,
+          guide: guide,
+          review: review,
+          recipe: recipe,
+          seasonal: seasonal,
+        },
+      },
+      { new: true }
+    );
+    res.status(202).json(updatedArticle);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 
 router.delete("/delete/:id", isAuth, async (req, res, next) => {
   try {
