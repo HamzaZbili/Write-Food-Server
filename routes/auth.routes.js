@@ -49,7 +49,6 @@ router.post("/login", async (req, res, next) => {
     if (!matchingPassword) {
       return res.status(400).json({ message: "password incorrect" });
     }
-
     const payload = { username };
     const token = jsonWebToken.sign(payload, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
