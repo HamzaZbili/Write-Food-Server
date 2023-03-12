@@ -137,6 +137,7 @@ router.patch("/update/:id", isAuth, async (req, res, next) => {
       title,
       image,
       city,
+      publicationDate,
       publisher,
       other,
       link,
@@ -149,12 +150,13 @@ router.patch("/update/:id", isAuth, async (req, res, next) => {
     } = req.body;
     const id = req.params.id;
     const updatedArticle = await Article.findOneAndUpdate(
-      { id: id },
+      { _id: id },
       {
         title: title,
         image: image,
         city: city,
         publisher: publisher,
+        publicationDate: publicationDate,
         other: other,
         link: link,
         category: {
