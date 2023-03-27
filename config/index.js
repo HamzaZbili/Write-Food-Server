@@ -20,13 +20,13 @@ module.exports = (app) => {
   app.set("trust proxy", 1);
 
   // controls a very specific header to pass headers from the frontend
-
   app.use(
     cors({
       credentials: true,
-      origin:
-        "http://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com" ||
+      origin: [
+        "http://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com",
         "http://rachelnaismith.com",
+      ],
     })
   );
 
