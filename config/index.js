@@ -26,7 +26,6 @@ module.exports = (app) => {
       origin: [
         "https://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com",
         "https://rachelnaismith.com",
-        "https://dg31bdixv2z34.cloudfront.net",
       ],
     })
   );
