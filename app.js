@@ -20,8 +20,6 @@ const allRoutes = require("./routes/index.routes");
 const articleRoutes = require("./routes/article.routes");
 const authRoutes = require("./routes/auth.routes");
 
-console.log("testing 123");
-
 app.use("/", allRoutes);
 app.use("/auth", authRoutes);
 app.use("/articles", articleRoutes);

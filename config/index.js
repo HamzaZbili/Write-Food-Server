@@ -24,21 +24,13 @@ module.exports = (app) => {
   app.use(
     cors({
       credentials: true,
-      origin: process.env.ORIGIN || "http://localhost:3000",
+      origin:
+        process.env.ORIGIN ||
+        "http://localhost:3000" ||
+        "http://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com" ||
+        "http://rachelnaismith.com",
     })
   );
-
-  app.use((req, res, next) => {
-    res.header(
-      "Access-Control-Allow-Origin",
-      "http://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com"
-    );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
 
   // In development environment the app logs
   app.use(logger("dev"));
