@@ -26,6 +26,7 @@ module.exports = (app) => {
       origin: [
         "http://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com",
         "http://rachelnaismith.com",
+        "http://localhost:3000",
       ],
     })
   );

@@ -3,83 +3,49 @@ const isAuth = require("../middleware/middleware");
 const fileUploader = require("../config/cloudinary.config");
 const Article = require("../models/Article.model");
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
+  const { category, publisher, city, order, search } = req.query;
+
+  // Build query object
+  const query = {};
+
+  if (category) {
+    query["category." + category] = true;
+  }
+
+  if (publisher) {
+    query.publisher = publisher;
+  }
+
+  if (city) {
+    query.city = city;
+  }
+
+  if (search) {
+    query.title = new RegExp(search, "i");
+  }
+
+  // Build sort object
+  const sort = {};
+
+  if (order === "asc") {
+    sort.publicationDate = 1;
+  } else if (order === "desc") {
+    sort.publicationDate = -1;
+  }
+
   try {
-    const articles = await Article.find().limit(6);
-    res.status(200).json(articles);
-  } catch (error) {
-    res.status(400).send(error.message);
+    const articles = await Article.find(query).sort(sort);
+    res.send(articles);
+  } catch (err) {
+    res.status(500).send(err.message);
   }
 });
+
 router.get("/more/:skip", async (req, res, next) => {
   try {
     const articles = await Article.find().skip(req.params.skip).limit(3);
     res.status(200).json(articles);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-router.get("/all", isAuth, async (req, res, next) => {
-  try {
-    const articles = await Article.find();
-    res.status(200).json(articles);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-router.get("/lifestyle", async (req, res, next) => {
-  try {
-    const lifeStyle = await Article.find({
-      "category.lifestyle": true,
-    });
-    res.status(200).json(lifeStyle);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-router.get("/guides", async (req, res, next) => {
-  try {
-    const guides = await Article.find({
-      "category.guide": true,
-    });
-    console.log(guides.length);
-    res.status(200).json(guides);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-router.get("/reviews", async (req, res, next) => {
-  try {
-    const reviews = await Article.find({
-      "category.review": true,
-    });
-    res.status(200).json(reviews);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-router.get("/recipes", async (req, res, next) => {
-  try {
-    const recipes = await Article.find({
-      "category.recipe": true,
-    });
-    res.status(200).json(recipes);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-router.get("/seasonal", async (req, res, next) => {
-  try {
-    const seasonal = await Article.find({
-      "category.seasonal": true,
-    });
-    res.status(200).json(seasonal);
   } catch (error) {
     res.status(400).send(error.message);
   }
