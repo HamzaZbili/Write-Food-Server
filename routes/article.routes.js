@@ -9,16 +9,18 @@ router.get("/", async (req, res) => {
   // Build query object
   const query = {};
 
-  if (category) {
-    query["category." + category] = true;
+  // Checkboxes for city, publisher, and category
+  if (city) {
+    query.city = { $in: city };
   }
 
   if (publisher) {
-    query.publisher = publisher;
+    query.publisher = { $in: publisher };
   }
 
-  if (city) {
-    query.city = city;
+  if (category) {
+    const categories = category.split(",");
+    query.category = { $in: categories };
   }
 
   if (search) {
