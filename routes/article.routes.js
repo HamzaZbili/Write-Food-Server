@@ -20,7 +20,13 @@ router.get("/", async (req, res) => {
 
   if (category) {
     const categories = category.split(",");
-    query.category = { $in: categories };
+    const categoryQuery = {};
+
+    categories.forEach((cat) => {
+      categoryQuery[`category.${cat}`] = true;
+    });
+
+    query.$and = [categoryQuery];
   }
 
   if (search) {
