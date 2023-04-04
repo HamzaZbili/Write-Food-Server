@@ -17,9 +17,13 @@ router.get("/", async (req, res) => {
   }
 
   if (category) {
-    console.log(category);
+    const categoryArray = category.split(",");
+    const categoryQuery = { $or: [] };
+    categoryArray.forEach((cat) => {
+      categoryQuery.$or.push({ [`category.${cat}`]: true });
+    });
+    Object.assign(query, categoryQuery);
   }
-
   // Build sort object
   const sort = {};
 
@@ -28,7 +32,6 @@ router.get("/", async (req, res) => {
   } else if (order === "desc") {
     sort.publicationDate = -1;
   }
-
   try {
     const articles = await Article.find(query).sort(sort);
     res.send(articles);
