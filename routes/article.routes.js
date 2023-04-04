@@ -4,33 +4,20 @@ const fileUploader = require("../config/cloudinary.config");
 const Article = require("../models/Article.model");
 
 router.get("/", async (req, res) => {
-  const { category, publisher, city, order, search } = req.query;
-
+  const { category, city, order, search } = req.query;
   // Build query object
   const query = {};
 
-  // Checkboxes for city, publisher, and category
   if (city) {
     query.city = { $in: city };
   }
 
-  if (publisher) {
-    query.publisher = { $in: publisher };
+  if (search) {
+    query.title = new RegExp(search, "i");
   }
 
   if (category) {
-    const categories = category.split(",");
-    const categoryQuery = {};
-
-    categories.forEach((cat) => {
-      categoryQuery[`category.${cat}`] = true;
-    });
-
-    query.$and = [categoryQuery];
-  }
-
-  if (search) {
-    query.title = new RegExp(search, "i");
+    console.log(category);
   }
 
   // Build sort object
