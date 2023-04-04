@@ -26,7 +26,6 @@ router.get("/", async (req, res) => {
   }
   // Build sort object
   const sort = {};
-
   if (order === "asc") {
     sort.publicationDate = 1;
   } else if (order === "desc") {
