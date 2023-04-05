@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
     sort.publicationDate = -1;
   }
   try {
-    const articles = await Article.find(query).sort(sort);
+    const articles = await Article.find(query).sort(sort).limit(8);
     res.send(articles);
   } catch (err) {
     res.status(500).send(err.message);
@@ -40,8 +40,35 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/more/:skip", async (req, res, next) => {
+  const { category, city, order, search } = req.query;
+  // Build query object
+  const query = {};
+
+  if (city) {
+    query.city = { $in: city };
+  }
+
+  if (search) {
+    query.title = new RegExp(search, "i");
+  }
+
+  if (category) {
+    const categoryArray = category.split(",");
+    const categoryQuery = { $or: [] };
+    categoryArray.forEach((cat) => {
+      categoryQuery.$or.push({ [`category.${cat}`]: true });
+    });
+    Object.assign(query, categoryQuery);
+  }
+  // Build sort object
+  const sort = {};
+  if (order === "asc") {
+    sort.publicationDate = 1;
+  } else if (order === "desc") {
+    sort.publicationDate = -1;
+  }
   try {
-    const articles = await Article.find().skip(req.params.skip).limit(3);
+    const articles = await Article.find(query).skip(req.params.skip).limit(4);
     res.status(200).json(articles);
   } catch (error) {
     res.status(400).send(error.message);
