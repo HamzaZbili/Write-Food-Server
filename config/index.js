@@ -24,9 +24,11 @@ module.exports = (app) => {
     cors({
       credentials: true,
       origin: [
-        "http://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com",
-        "http://rachelnaismith.com",
+        "https://rachelnaismith.com.s3-website.eu-west-2.amazonaws.com",
+        "https://rachelnaismith.com",
+        "https://d2dkrriwitr9ou.cloudfront.net",
         "http://localhost:3000",
+        "*",
       ],
     })
   );
