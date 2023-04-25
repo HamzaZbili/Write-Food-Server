@@ -24,16 +24,12 @@ router.get("/", async (req, res) => {
     });
     Object.assign(query, categoryQuery);
   }
-  // Build sort object
-  const sort = {};
-  if (order === "asc") {
-    sort.publicationDate = 1;
-  } else {
-    sort.publicationDate = -1;
-  }
+
   try {
-    const articles = await Article.find(query).sort(sort).limit(8);
-    res.send(articles);
+    const articles = await Article.find(query)
+      .sort({ publicationDate: order })
+      .limit(8);
+    res.status(200).send(articles);
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -60,16 +56,9 @@ router.get("/more/:skip", async (req, res, next) => {
     });
     Object.assign(query, categoryQuery);
   }
-  // Build sort object
-  const sort = {};
-  if (order === "asc") {
-    sort.publicationDate = 1;
-  } else {
-    sort.publicationDate = -1;
-  }
   try {
     const articles = await Article.find(query)
-      .sort(sort)
+      .sort({ publicationDate: order })
       .skip(req.params.skip)
       .limit(4);
     res.status(200).json(articles);
