@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
   }
   // Build sort object
   const sort = {};
-  if (order === "desc") {
+  if (order === "asc") {
     sort.publicationDate = 1;
   } else {
     sort.publicationDate = -1;
@@ -62,13 +62,16 @@ router.get("/more/:skip", async (req, res, next) => {
   }
   // Build sort object
   const sort = {};
-  if (order === "desc") {
+  if (order === "asc") {
     sort.publicationDate = 1;
   } else {
     sort.publicationDate = -1;
   }
   try {
-    const articles = await Article.find(query).skip(req.params.skip).limit(4);
+    const articles = await Article.find(query)
+      .sort(sort)
+      .skip(req.params.skip)
+      .limit(4);
     res.status(200).json(articles);
   } catch (error) {
     res.status(400).send(error.message);
