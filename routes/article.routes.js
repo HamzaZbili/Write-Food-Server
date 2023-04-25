@@ -26,9 +26,9 @@ router.get("/", async (req, res) => {
   }
   // Build sort object
   const sort = {};
-  if (order === "asc") {
+  if (order === "desc") {
     sort.publicationDate = 1;
-  } else if (order === "desc") {
+  } else {
     sort.publicationDate = -1;
   }
   try {
@@ -62,9 +62,9 @@ router.get("/more/:skip", async (req, res, next) => {
   }
   // Build sort object
   const sort = {};
-  if (order === "asc") {
+  if (order === "desc") {
     sort.publicationDate = 1;
-  } else if (order === "desc") {
+  } else {
     sort.publicationDate = -1;
   }
   try {
