@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   // Build query object
   const query = {};
 
-  if (city) {
+  if (city && city !== "all") {
     query.city = { $in: city };
   }
 
@@ -40,7 +40,7 @@ router.get("/more/:skip", async (req, res, next) => {
   // Build query object
   const query = {};
 
-  if (city) {
+  if (city && city !== "all") {
     query.city = { $in: city };
   }
 
